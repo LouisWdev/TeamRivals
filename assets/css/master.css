@@ -6,6 +6,62 @@
   --accent: #b7aa57;
 }
 body {
+  background: #343600;
+  background: linear-gradient(
+    180deg,
+    rgb(31, 32, 0) 0%,
+    rgba(224, 208, 103, 1) 100%
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+pre {
+  text-decoration: none;
   color: var(--text);
-  background-color: var(--background);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: black;
+  height: 60px;
+  padding: 0px;
+  position: fixed;
+  width: 100%;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: var(--text);
+  padding-left: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text);
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.btn-yellow {
+  background-color: var(--accent);
+  height: 100%;
+  font-weight: bold;
 }
