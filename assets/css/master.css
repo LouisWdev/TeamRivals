@@ -3,7 +3,7 @@
   --background: #13120c;
   --primary: #bcaa34;
   --secondary: #4d4823;
-  --accent: #b7aa57;
+  --accent: #ffef31;
 }
 body {
   background: #343600;
@@ -38,6 +38,9 @@ pre {
   width: 100%;
 }
 
+
+
+
 .nav-logo {
   display: flex;
   align-items: center;
@@ -53,11 +56,15 @@ pre {
 
 .nav-links a {
   text-decoration: none;
-  color: var(--text);
+  color: #fff;
   padding: 0 20px;
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.nav-links a:nth-child(3) {
+  color: #000;
 }
 
 .btn-yellow {
