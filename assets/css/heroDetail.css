@@ -2,8 +2,6 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   line-height: 1.6;
-  background-color: #fff;
-  
 }
 
 
@@ -43,14 +41,18 @@ body {
 
 .hero-large-image {
   flex: 1;
-  background-color: #d9d9d9;
-  aspect-ratio: 1 / 1;
   border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #555;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.hero-large-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 15px;
 }
 
 /* Andere Helden Section */
@@ -66,28 +68,50 @@ body {
 }
 
 .mini-card {
-  background-color: #d9d9d9;
+  background-color: var(--secondary);
+  border: 2px solid var(--primary);
   border-radius: 12px;
-  padding: 20px;
+  overflow: hidden;
   text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.mini-card:hover {
+  border-color: var(--accent);
+}
+
+.mini-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
 }
 
 .mini-img-placeholder {
-  height: 150px;
+  height: 160px;
+  background-color: var(--background);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+}
+
+.mini-info {
+  padding: 10px 12px 14px;
 }
 
 .mini-info h3 {
-  margin-bottom: 10px;
-  font-weight: normal;
+  margin: 0 0 6px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--primary);
 }
 
 .mini-info p {
   margin: 2px 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text);
 }
 
 /* Responsive adjustments */
