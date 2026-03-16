@@ -47,10 +47,12 @@
   padding: 20px;
   color: var(--text);
   transition: border-color 0.2s;
+  transition: transform 0.2s;
 }
 
 .card:hover {
   border-color: var(--accent);
+  transform: translateY(-5px);
 }
 
 .card h2 {

@@ -27,7 +27,7 @@
 .input-group label {
   width: 90px;
   font-size: 1rem;
-  color: var(--text);
+  color: var(--background);
 }
 
 .input-group input {

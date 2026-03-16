@@ -12,14 +12,15 @@
     <link rel="stylesheet" href="../assets/css/landing.css" />
   </head>
   <body>
-    <nav class="navbar">
-      <a href="../pages/landing.html" class="nav-logo">Rivals Track</a>
-      <div class="nav-links">
-        <a href="heroes.html">Heroes</a>
-        <a href="loginPage.html" class="btn-yellow">Log In</a>
-      </div>
-    </nav>
-
+    <header>
+      <nav class="navbar">
+        <a href="../pages/landing.html" class="nav-logo">Rivals Track</a>
+        <div class="nav-links">
+          <a href="heroes.html">Heroes</a>
+          <a href="loginPage.html" class="btn-yellow">Log In</a>
+        </div>
+      </nav>
+    </header>
     <header class="hero">
       <h1>Marvels Track</h1>
       <p class="subtitle">Al de Marvel Rivals statistieken beschikbaar.</p>
@@ -28,17 +29,29 @@
 
     <main class="container">
       <section class="card-grid">
-        <article class="card card-grey" onclick="location.href='statpage.html'" style="cursor:pointer;">
+        <article
+          class="card card-grey"
+          onclick="location.href = 'statpage.html'"
+          style="cursor: pointer"
+        >
           <h2>Speler Statistieken</h2>
           <div class="card-overlay">Bekijk de statistieken van je account</div>
         </article>
 
-        <article class="card card-red-light" onclick="location.href='heroes.html'" style="cursor:pointer;">
+        <article
+          class="card card-red-light"
+          onclick="location.href = 'heroes.html'"
+          style="cursor: pointer"
+        >
           <h2>Helden Informatie</h2>
           <div class="card-overlay">Bekijk de details van een held</div>
         </article>
 
-        <article class="card card-red-dark" onclick="location.href='newsPage.html'" style="cursor:pointer;">
+        <article
+          class="card card-red-dark"
+          onclick="location.href = 'newsPage.html'"
+          style="cursor: pointer"
+        >
           <h2>Spel Nieuws</h2>
           <div class="card-overlay">Nieuws over marvel rivals</div>
         </article>

@@ -12,14 +12,15 @@
     <link rel="stylesheet" href="../assets/css/statPage.css" />
   </head>
   <body>
-    <nav class="navbar">
-      <a href="../pages/landing.html" class="nav-logo">Rivals Track</a>
-      <div class="nav-links">
-        <a href="#">Lore</a>
-        <a href="#">Heroes</a>
-        <a href="#" class="btn-yellow">Log In</a>
-      </div>
-    </nav>
+    <header>
+      <nav class="navbar">
+        <a href="../pages/landing.html" class="nav-logo">Rivals Track</a>
+        <div class="nav-links">
+          <a href="heroes.html">Heroes</a>
+          <a href="loginPage.html" class="btn-yellow">Log In</a>
+        </div>
+      </nav>
+    </header>
 
     <main class="container stats-page">
       <h1>Live Statistieken</h1>
@@ -38,7 +39,12 @@
         <h2>Geef je usernaam in</h2>
         <div class="input-row">
           <label for="player-search">Speler:</label>
-          <input type="text" id="player-search" name="player-search" placeholder="Enter username..." />
+          <input
+            type="text"
+            id="player-search"
+            name="player-search"
+            placeholder="Enter username..."
+          />
           <button id="search-btn">Search</button>
         </div>
         <div class="centered-placeholder results-area"></div>
