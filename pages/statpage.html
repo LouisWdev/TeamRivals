@@ -30,24 +30,24 @@
         <div class="centered-placeholder" id="hero-count-stat"></div>
       </section>
 
-      <section class="stat-group">
-        <h2>Uitgelichte Helden</h2>
-        <div class="featured-heroes-row" id="featured-heroes"></div>
-      </section>
-
       <section class="stat-group search-section">
         <h2>Geef je usernaam in</h2>
         <div class="input-row">
-          <label for="player-search">Speler:</label>
           <input
             type="text"
             id="player-search"
             name="player-search"
-            placeholder="Enter username..."
+            placeholder="Search a player..."
+            autocomplete="off"
           />
           <button id="search-btn">Search</button>
         </div>
         <div class="centered-placeholder results-area"></div>
+      </section>
+
+      <section class="stat-group">
+        <h2>Uitgelichte Helden</h2>
+        <div class="featured-heroes-row" id="featured-heroes"></div>
       </section>
     </main>
     <script src="../js/navbar.js"></script>

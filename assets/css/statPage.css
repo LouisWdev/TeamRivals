@@ -109,44 +109,41 @@ h2 {
 }
 
 .input-row {
-  background-color: var(--secondary);
-  padding: 10px 20px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 10px;
   width: 100%;
   max-width: 500px;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+  border: 1px solid var(--secondary);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
 }
 
-.input-row label {
-  margin-right: 5px;
-  font-size: 1rem;
-  color: var(--text);
-  white-space: nowrap;
+.input-row:focus-within {
+  border-color: var(--primary);
 }
 
 .input-row input {
   flex-grow: 1;
-  border: 2px solid var(--primary);
-  background-color: var(--accent);
-  padding: 8px;
-  border-radius: 4px;
-  color: var(--background);
+  background: rgba(255,255,255,0.05);
+  border: none;
+  padding: 14px 18px;
+  font-size: 1rem;
+  color: var(--text);
   outline: none;
 }
 
-.input-row input:focus {
-  border-color: var(--text);
+.input-row input::placeholder {
+  color: rgba(234,233,225,0.35);
 }
 
 #search-btn {
   background-color: var(--primary);
   color: var(--background);
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 14px 22px;
+  font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
   white-space: nowrap;
@@ -157,27 +154,158 @@ h2 {
   background-color: var(--accent);
 }
 
-.player-result {
-  background-color: var(--secondary);
-  border: 2px solid var(--primary);
-  border-radius: 12px;
-  padding: 20px 30px;
-  min-width: 260px;
-}
-
-.player-result h3 {
-  font-size: 1.5rem;
-  color: var(--primary);
-  margin-bottom: 10px;
-}
-
-.top-hero img {
-  border-radius: 8px;
-  height: 60px;
-  margin-top: 8px;
-}
-
 .results-area {
-  margin-top: 20px;
-  font-size: 1.2rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.player-result {
+  background-color: rgba(255,255,255,0.04);
+  border: 1px solid var(--secondary);
+  border-top: 3px solid var(--primary);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Header: icon + name + rank */
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.player-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  object-fit: cover;
+}
+
+.player-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.player-identity h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+
+.player-level {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.rank-display {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rank-display img {
+  height: 80px;
+}
+
+.rank-display span {
+  font-size: 0.8rem;
+  color: var(--text);
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* Overall stats: 3 columns */
+.player-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stat-box {
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid var(--secondary);
+  border-radius: 8px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+/* Ranked / Unranked row */
+.player-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mode-box {
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid var(--secondary);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mode-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.mode-record {
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: bold;
+}
+
+/* Top heroes */
+.top-heroes-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.top-heroes-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-chip {
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid var(--secondary);
+  border-radius: 20px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-chip-name {
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.hero-chip-matches {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.55;
 }

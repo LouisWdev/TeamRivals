@@ -80,6 +80,11 @@ pre {
   transition: text-shadow 0.3s ease-in-out;
 }
 
+.nav-active {
+  color: var(--primary) !important;
+  border-bottom: 2px solid var(--primary);
+}
+
 .btn-yellow {
   background-color: var(--accent);
   height: 100%;

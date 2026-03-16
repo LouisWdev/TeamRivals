@@ -92,70 +92,116 @@ async function searchPlayer() {
     );
 
     const data = await res.json();
+    console.log("Player API response:", data);
 
-    // CHECK 1: If the HTTP response failed (404, 500, etc)
-    // CHECK 2: If the API returned an error message in the JSON
-    // CHECK 3: If the player object is missing/null
-    if (
-      !res.ok ||
-      data.error ||
-      data.message === "Player not found" ||
-      (!data.player && !data.name)
-    ) {
-      resultsArea.innerHTML = "<p>Player not found.</p>";
+    if (res.status === 429) {
+      resultsArea.innerHTML = "<p>Too many requests. Please wait a moment and try again.</p>";
+      return;
+    }
+
+    if (!res.ok || data.error || data.message) {
+      const msg = data.message || data.error || "Player not found.";
+      resultsArea.innerHTML = `<p>${msg}</p>`;
+      return;
+    }
+
+    if (!data || (typeof data === "object" && Object.keys(data).length === 0)) {
+      resultsArea.innerHTML = "<p>No data returned for this player.</p>";
       return;
     }
 
     renderPlayer(data, resultsArea);
   } catch (err) {
     console.error("Search error:", err);
-    resultsArea.innerHTML = "<p>Failed to fetch player data.</p>";
+    resultsArea.innerHTML = "<p>An error occurred while searching. Please try again.</p>";
   }
 }
 
 function renderPlayer(data, container) {
-  const player = data.player || data;
-  const name =
-    player.name || player.username || player.player_name || "Unknown";
-  let rankDisplay = "Unranked";
-  if (player.rank_info && typeof player.rank_info === "object") {
-    rankDisplay =
-      player.rank_info.rank_name || player.rank_info.name || "Unranked";
-  } else if (typeof player.rank === "string") {
-    rankDisplay = player.rank;
-  }
+  const player = data.player || {};
+  const name = data.name || player.name || "Unknown";
+  const level = player.level || "—";
 
-  // 4. Handle stats (checking both top-level and nested .stats object)
-  const wins = player.stats?.wins ?? player.wins ?? "—";
-  const losses = player.stats?.losses ?? player.losses ?? "—";
-  const mvp = player.stats?.mvp_count ?? player.mvp ?? "—";
+  // Rank
+  const rank = player.rank?.rank || "Unranked";
+  const rankImg = player.rank?.image ? `${SKIN_BASE}${player.rank.image}` : null;
 
-  const rank = rankDisplay;
+  // Player icon
+  const iconImg = player.icon?.player_icon ? `${SKIN_BASE}${player.icon.player_icon}` : null;
 
-  const heroes = player.ranked_heroes || player.hero_stats || [];
-  const topHero = heroes[0];
-  const topHeroImg = topHero?.imageUrl
-    ? `${IMG_BASE}${topHero.imageUrl}`
-    : null;
+  // Overall stats (all-time, not just last season)
+  const overall = data.overall_stats || {};
+  const totalMatches = overall.total_matches ?? "—";
+  const totalWins = overall.total_wins ?? "—";
+  const totalLosses = (typeof totalMatches === "number" && typeof totalWins === "number")
+    ? totalMatches - totalWins
+    : "—";
+
+  const ranked = overall.ranked || {};
+  const unranked = overall.unranked || {};
+
+  // Top heroes (combine ranked + unranked, sorted by matches)
+  const allHeroes = [...(data.heroes_ranked || []), ...(data.heroes_unranked || [])];
+  allHeroes.sort((a, b) => (b.matches ?? 0) - (a.matches ?? 0));
+  const topHeroes = allHeroes.slice(0, 3);
 
   container.innerHTML = `
-        <div class="player-result">
-            <h3>${name}</h3>
-            <p><strong>Rank:</strong> ${rank}</p>
-            <p><strong>Wins:</strong> ${wins} &nbsp;|&nbsp; <strong>Losses:</strong> ${losses}</p>
-            <p><strong>MVP count:</strong> ${mvp}</p>
-            ${
-              topHero
-                ? `
-                <div class="top-hero">
-                    <p><strong>Most played:</strong> ${topHero.hero_name || topHero.real_name || topHero.name || "—"}</p>
-                    ${topHeroImg ? `<img src="${topHeroImg}" alt="${topHero.hero_name || ""}" style="height:60px; border-radius:8px;">` : ""}
-                </div>
-            `
-                : ""
-            }
+    <div class="player-result">
+
+      <div class="player-header">
+        ${iconImg ? `<img class="player-icon" src="${iconImg}" alt="${name}">` : ""}
+        <div class="player-identity">
+          <h3>${name}</h3>
+          <span class="player-level">Level ${level}</span>
         </div>
-    `;
+        <div class="rank-display">
+          ${rankImg ? `<img src="${rankImg}" alt="${rank}">` : ""}
+          <span>${rank}</span>
+        </div>
+      </div>
+
+      <div class="player-stats-grid">
+        <div class="stat-box">
+          <p class="stat-number">${totalMatches}</p>
+          <p class="stat-label">Total Matches</p>
+        </div>
+        <div class="stat-box">
+          <p class="stat-number">${totalWins}</p>
+          <p class="stat-label">Wins</p>
+        </div>
+        <div class="stat-box">
+          <p class="stat-number">${totalLosses}</p>
+          <p class="stat-label">Losses</p>
+        </div>
+      </div>
+
+      <div class="player-mode-grid">
+        <div class="mode-box">
+          <span class="mode-label">Ranked</span>
+          <span class="mode-record">${ranked.total_wins ?? 0}W — ${(ranked.total_matches ?? 0) - (ranked.total_wins ?? 0)}L</span>
+        </div>
+        <div class="mode-box">
+          <span class="mode-label">Unranked</span>
+          <span class="mode-record">${unranked.total_wins ?? 0}W — ${(unranked.total_matches ?? 0) - (unranked.total_wins ?? 0)}L</span>
+        </div>
+      </div>
+
+      ${topHeroes.length ? `
+        <div class="top-heroes">
+          <p class="top-heroes-title">Most Played</p>
+          <div class="top-heroes-list">
+            ${topHeroes.map(h => `
+              <div class="hero-chip">
+                <span class="hero-chip-name">${h.hero_name || h.name || "—"}</span>
+                <span class="hero-chip-matches">${h.matches ?? "—"} matches</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      ` : ""}
+
+    </div>
+  `;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
