@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         const data = await res.json();
         const heroes = Array.isArray(data) ? data : (data.heroes || []);
-        el.textContent = `${heroes.length} Heroes available`;
+        el.textContent = `${heroes.length} Helden Beschikbaar`;
     } catch {
         el.textContent = "";
     }

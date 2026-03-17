@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   nav.innerHTML = `
     <a href="../pages/landing.html" class="nav-logo">Rivals Track</a>
     <div class="nav-links">
-      <a href="heroes.html">Heroes</a>
-      <a href="statpage.html">Stats</a>
-      <a href="newsPage.html">News</a>
+      <a href="heroes.html">Helden</a>
+      <a href="statpage.html">Statistieken</a>
+      <a href="newsPage.html">Nieuws</a>
       <a href="loginPage.html" class="btn-yellow login-link">Log In</a>
     </div>
   `;
