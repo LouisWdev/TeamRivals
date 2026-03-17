@@ -4,8 +4,6 @@ const BASE_URL = "https://marvelrivalsapi.com/api/v1";
 const IMG_BASE = "https://marvelrivalsapi.com";
 const SKIN_BASE = "https://marvelrivalsapi.com/rivals";
 
-// ── Game stats section ─────────────────────────────────────────────────────
-
 async function loadGameStats() {
   try {
     const res = await fetch(`${BASE_URL}/heroes`, {
@@ -14,14 +12,12 @@ async function loadGameStats() {
     const data = await res.json();
     const heroes = Array.isArray(data) ? data : data.heroes || [];
 
-    // Count heroes per role
     const roles = {};
     heroes.forEach((h) => {
       const role = h.role || "Unknown";
       roles[role] = (roles[role] || 0) + 1;
     });
 
-    // Hero count stat
     const heroCountEl = document.querySelector("#hero-count-stat");
     if (heroCountEl) {
       heroCountEl.innerHTML = `
@@ -38,7 +34,6 @@ async function loadGameStats() {
             `;
     }
 
-    // Featured heroes (one per role)
     const featuredEl = document.querySelector("#featured-heroes");
     if (featuredEl) {
       const byRole = {};
@@ -70,8 +65,6 @@ async function loadGameStats() {
     if (heroCountEl) heroCountEl.textContent = "Could not load game stats.";
   }
 }
-
-// ── Player search ──────────────────────────────────────────────────────────
 
 async function searchPlayer() {
   const input = document.querySelector("#player-search");
