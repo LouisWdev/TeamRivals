@@ -1,0 +1,311 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  text-align: left;
+}
+
+.container {
+  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  padding-top: 100px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.centered-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+  font-size: 1.4rem;
+  color: var(--text);
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin: 0;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0;
+}
+
+.role-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.role-tag {
+  background-color: var(--secondary);
+  color: var(--text);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.featured-heroes-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.featured-hero {
+  background-color: var(--secondary);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  flex: 1;
+  min-width: 140px;
+  transition: border-color 0.2s;
+}
+
+.featured-hero:hover {
+  border-color: var(--accent);
+}
+
+.featured-hero img {
+  width: 100%;
+  max-width: 120px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.featured-hero p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-section h2 {
+  width: 100%;
+  text-align: left;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 32px;
+  border: 1px solid var(--secondary);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-row:focus-within {
+  border-color: var(--primary);
+}
+
+.input-row input {
+  flex-grow: 1;
+  background: rgba(255,255,255,0.05);
+  border: none;
+  padding: 14px 18px;
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+}
+
+.input-row input::placeholder {
+  color: rgba(234,233,225,0.35);
+}
+
+#search-btn {
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  padding: 14px 22px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+#search-btn:hover {
+  background-color: var(--accent);
+}
+
+.results-area {
+  width: 100%;
+  max-width: 500px;
+}
+
+.player-result {
+  background-color: rgba(255,255,255,0.04);
+  border: 1px solid var(--secondary);
+  border-top: 3px solid var(--primary);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Header: icon + name + rank */
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.player-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  object-fit: cover;
+}
+
+.player-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.player-identity h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+
+.player-level {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.rank-display {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rank-display img {
+  height: 80px;
+}
+
+.rank-display span {
+  font-size: 0.8rem;
+  color: var(--text);
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* Overall stats: 3 columns */
+.player-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stat-box {
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid var(--secondary);
+  border-radius: 8px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+/* Ranked / Unranked row */
+.player-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mode-box {
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid var(--secondary);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mode-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.mode-record {
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: bold;
+}
+
+/* Top heroes */
+.top-heroes-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.top-heroes-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-chip {
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid var(--secondary);
+  border-radius: 20px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-chip-name {
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.hero-chip-matches {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.55;
+}

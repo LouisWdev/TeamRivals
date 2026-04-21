@@ -1,0 +1,123 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  padding-top: 100px;
+}
+
+.hero-detail-main {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 80px;
+  align-items: flex-start;
+}
+
+.hero-text-content {
+  flex: 1;
+}
+
+.hero-text-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.stats-list p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+}
+
+.hero-description {
+  margin-top: 30px;
+  color: var(--text);
+}
+
+.hero-large-image {
+  flex: 1;
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.hero-large-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 15px;
+}
+
+/* Andere Helden Section */
+.andere-helden h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.hero-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.mini-card {
+  background-color: var(--secondary);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.mini-card:hover {
+  border-color: var(--accent);
+}
+
+.mini-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.mini-img-placeholder {
+  height: 160px;
+  background-color: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-info {
+  padding: 10px 12px 14px;
+}
+
+.mini-info h3 {
+  margin: 0 0 6px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.mini-info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-detail-main {
+    flex-direction: column-reverse;
+  }
+  .hero-grid-mini {
+    grid-template-columns: 1fr;
+  }
+}

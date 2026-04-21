@@ -1,0 +1,93 @@
+:root {
+  --text: #eae9e1;
+  --background: #13120c;
+  --primary: #bcaa34;
+  --secondary: #4d4823;
+  --accent: #ffef31;
+}
+body {
+  background: #1a1b00;
+  background: linear-gradient(180deg, rgb(20, 21, 0) 0%, rgb(50, 46, 5) 100%);
+  min-height: 100vh;
+  height: fit-content;
+  padding-top: 60px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+pre {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: black;
+  height: 60px;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--primary);
+  padding-left: 20px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-logo:hover {
+  color: var(--primary);
+  text-shadow:
+    0 0 10px var(--primary),
+    0 0 20px var(--primary);
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.nav-links a:hover {
+  color: #fff;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 20px #fff;
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+.nav-active {
+  color: var(--primary) !important;
+  border-bottom: 2px solid var(--primary);
+}
+
+.btn-yellow {
+  background-color: var(--accent);
+  height: 100%;
+  font-weight: bold;
+  color: #000 !important;
+}
