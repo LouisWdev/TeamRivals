@@ -1,14 +1,12 @@
+
 import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 import { account } from "./interfaces";
 
-const uri = "mongodb+srv://Louis:louis2024@ap-wo.f6fxict.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://Louis:louis2024@ap-wo.f6fxict.mongodb.net/?appName=AP-WO"
 const client = new MongoClient(uri);
 const db = client.db("Rivals-Track");
-
 export const userCollection = db.collection<account>("Accounts");
-
-const ROLES = ["ADMIN", "USER"];
 
 function generateRandomSalt(): string {
     const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -22,7 +20,7 @@ function generateRandomSalt(): string {
 
 export async function createAccount(data: Omit<account, "salt">) {
     const salt = generateRandomSalt();
-    // Use the salt + password combination
+    
     const hashedPassword = await bcrypt.hash(data.password + salt, 10);
 
     const newAccount: account = {
@@ -30,21 +28,33 @@ export async function createAccount(data: Omit<account, "salt">) {
         email: data.email,
         password: hashedPassword,
         salt: salt,
-        role: ROLES.includes(data.role) ? data.role : "USER"
+        role: data.role || "USER"
     };
 
     return await userCollection.insertOne(newAccount);
 }
 
 
+
 export async function login(email: string, passwordAttempt: string): Promise<account | null> {
     const user = await userCollection.findOne({ email });
-    if (!user) return null;
+    
+    if (!user) {
+        console.log("Login failed: User not found");
+        return null;
+    }
 
-    const isMatch = await bcrypt.compare(passwordAttempt + user.salt, user.password);
-    return isMatch ? user : null;
+    const saltedAttempt = passwordAttempt + user.salt; 
+    
+    const isMatch = await bcrypt.compare(saltedAttempt, user.password);
+
+    if (!isMatch) {
+        console.log("Login failed: Password mismatch for", email);
+        return null;
+    }
+
+    return user;
 }
-
 
 export async function updateAccount(id: string, updates: Partial<account>) {
     const updatePayload: any = { ...updates };
@@ -53,6 +63,9 @@ export async function updateAccount(id: string, updates: Partial<account>) {
         const newSalt = generateRandomSalt();
         updatePayload.salt = newSalt;
         updatePayload.password = await bcrypt.hash(updates.password + newSalt, 10);
+    }
+     if (updates.username == "Admin") {
+        updates.role = "ADMIN"
     }
 
     return await userCollection.updateOne(
@@ -66,19 +79,27 @@ export async function deleteAccount(id: string) {
 }
 
 export async function createInitialUser() {
-    if (await userCollection.countDocuments() > 0) return;
+    try {
+        const count = await userCollection.countDocuments();
+        if (count > 0) return;
 
-    const email = process.env.ADMIN_EMAIL;
-    const password = process.env.ADMIN_PASSWORD;
+        const email = process.env.ADMIN_EMAIL;
+        const password = process.env.ADMIN_PASSWORD;
 
-    if (!email || !password) {
-        throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set in environment");
+        if (!email || !password) {
+            console.warn("Skipping admin seed: ADMIN_EMAIL/PASSWORD not set.");
+            return;
+        }
+
+        await createAccount({
+            username: "Admin",
+            email: email,
+            password: password,
+            role: "ADMIN"
+        });
+        
+        console.log("Initial admin account created.");
+    } catch (error) {
+        console.error("Error seeding initial user:", error);
     }
-
-    await createAccount({
-        username: "Admin",
-        email: email,
-        password: password,
-        role: "ADMIN"
-    });
 }
