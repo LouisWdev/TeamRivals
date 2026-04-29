@@ -163,8 +163,13 @@ export async function syncGameUpdates() {
 }
 
 export async function syncHeroes() {
-    const API_KEY = "7983383bb4f26287b16a031b0877b8b9dc1280ae42b1cf3d2b49562fe747364d";
+    const API_KEY = process.env.RIVALS_API_KEY;
     const BASE_URL = "https://marvelrivalsapi.com/api/v1";
+
+    if (!API_KEY) {
+        console.error("❌ RIVALS_API_KEY is not set.");
+        return;
+    }
 
     try {
         console.log("Fetching heroes from API...");

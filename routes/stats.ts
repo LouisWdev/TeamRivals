@@ -4,6 +4,7 @@ import axios from 'axios'
 
 
 const router = express.Router();
+const BASE_URL = "https://marvelrivalsapi.com/api/v1";
 
 
 router.get('/stats', async (req, res) => {
@@ -41,38 +42,72 @@ router.get('/stats', async (req, res) => {
     }
 });
 
-// GET /api/player/:username
-router.get('stats/api/player/:username', async (req, res) => {
-    console.log("!!! ROUTE HIT !!!"); // If you don't see this, the JS path is wrong
-    
+// GET /stats/api/player/:username
+router.get('/stats/api/player/:username', async (req, res) => {
+    let foundPlayer: any = null;
+
     try {
         const { username } = req.params;
-        const API_KEY = "7983383bb4f26287b16a031b0877b8b9dc1280ae42b1cf3d2b49562fe747364d";
+        const API_KEY = process.env.RIVALS_API_KEY;
+
+        if (!API_KEY) {
+            return res.status(500).json({
+                error: "Missing API key",
+                details: "RIVALS_API_KEY is not set."
+            });
+        }
         
-        const url = `https://marvelrivalsapi.com/api/v1/player/${encodeURIComponent(username)}`;
-        console.log("Fetching from:", url);
+        const headers = { "x-api-key": API_KEY };
+        try {
+            foundPlayer = await axios
+                .get(`${BASE_URL}/find-player/${encodeURIComponent(username)}`, { headers })
+                .then(response => response.data);
+        } catch {
+            foundPlayer = null;
+        }
 
-        const response = await axios.get(url, {
-            headers: { "x-api-key": API_KEY }
-        });
+        const queries = [foundPlayer?.name, foundPlayer?.uid, username]
+            .filter(Boolean)
+            .filter((query, index, allQueries) => allQueries.indexOf(query) === index);
 
-        console.log("API Response received!");
-        return res.json(response.data);
+        let lastError: any = null;
+        for (const query of queries) {
+            const url = `${BASE_URL}/player/${encodeURIComponent(query)}`;
+            console.log("Fetching from:", url);
+
+            try {
+                const response = await axios.get(url, { headers });
+                console.log("API Response received!");
+                return res.json(response.data);
+            } catch (statsError: any) {
+                lastError = statsError;
+            }
+        }
+
+        throw lastError;
 
     } catch (error: any) {
-    // THIS LOG IS THE KEY:
-    if (error.response) {
-        console.error("API DATA ERROR:", error.response.data);
-        console.error("API STATUS:", error.response.status);
-    } else {
-        console.error("NETWORK/TIMEOUT ERROR:", error.message);
-    }
+        if (error.response) {
+            console.error("API DATA ERROR:", error.response.data);
+            console.error("API STATUS:", error.response.status);
+        } else {
+            console.error("NETWORK/TIMEOUT ERROR:", error.message);
+        }
 
-    const status = error.response?.status || 500;
-    res.status(status).json({ 
-        error: "Player search failed",
-        details: error.response?.data?.message || error.message 
-    });
-}
+        const upstreamMessage = error.response?.data?.message || error.message;
+        if (foundPlayer) {
+            return res.status(502).json({
+                error: "Player found, but stats are unavailable",
+                details: upstreamMessage,
+                player: foundPlayer
+            });
+        }
+
+        const status = error.response?.status || 500;
+        res.status(status).json({ 
+            error: "Player search failed",
+            details: upstreamMessage 
+        });
+    }
 }); 
 export default router;

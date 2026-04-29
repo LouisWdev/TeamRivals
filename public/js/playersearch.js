@@ -19,14 +19,42 @@ async function searchPlayer() {
         const data = await res.json();
 
         if (!res.ok) {
-            resultsArea.innerHTML = `<p class="error">Player not found or API limit reached.</p>`;
+            if (data.player) {
+                renderPlayerWithoutStats(data, resultsArea);
+                return;
+            }
+
+            const message = data.details || data.message || data.error || "Player not found or API limit reached.";
+            resultsArea.innerHTML = `<p class="error">${message}</p>`;
             return;
         }
 
-        renderPlayer(data, resultsArea);
+        if (!data || data.error || data.message || Object.keys(data).length === 0) {
+            const message = data?.message || data?.error || "No data returned for this player.";
+            resultsArea.innerHTML = `<p class="error">${message}</p>`;
+            return;
+        }
+
+        renderPlayer(data.data || data, resultsArea);
     } catch (err) {
         resultsArea.innerHTML = `<p class="error">An error occurred while searching.</p>`;
     }
+}
+
+function renderPlayerWithoutStats(data, container) {
+    const player = data.player || {};
+    container.innerHTML = `
+        <div class="player-result fade-in">
+            <div class="player-header">
+                <div class="player-identity">
+                    <h3>${player.name || "Unknown"}</h3>
+                    <span class="player-level">UID ${player.uid || "—"}</span>
+                </div>
+            </div>
+            <p class="error">${data.error || "Player found, but stats are unavailable."}</p>
+            <p>${data.details || "The Marvel Rivals API could find this player, but did not return stats for them."}</p>
+        </div>
+    `;
 }
 
 function renderPlayer(data, container) {
