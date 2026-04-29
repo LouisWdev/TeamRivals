@@ -91,3 +91,62 @@ pre {
   font-weight: bold;
   color: #000 !important;
 }
+
+/* Ensure both anchor and button look identical */
+.btn-yellow.login-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Copy your exact dimensions from the Log In button */
+    height: 45px; 
+    padding: 0 20px;
+    
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: bold;
+    background-color: #ffcc00; /* Your yellow */
+    color: #000;
+}
+
+/* Fix dropdown positioning */
+.dropdown-menu {
+    margin-top: 5px !important;
+}
+/* Style the dropdown container */
+.dropdown-menu {
+    background-color: #4d4823 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    padding: 0.5rem 0;
+}
+
+/* Style the individual links inside the dropdown */
+.dropdown-item {
+    color: #ffffff !important; /* White text looks best on this dark color */
+    padding: 0.7rem 1.5rem;
+    transition: background-color 0.2s;
+}
+
+/* Style the hover state */
+.dropdown-item:hover {
+    background-color: #5d572b !important; /* Slightly lighter version for hover */
+    color: #ffcc00 !important; /* Yellow text on hover to match your buttons */
+}
+
+/* Style the horizontal divider line */
+.dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 0.5rem 0;
+}
+
+/* Ensure the danger/logout text stays red but looks good */
+.dropdown-item.text-danger {
+    color: #ff6b6b !important;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #611b1b !important;
+    color: #ffffff !important;
+}
