@@ -1,10 +1,15 @@
 
+import "dotenv/config";
 import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 import { account } from "../interfaces";
 import axios from 'axios'
 
-const uri = "mongodb+srv://Louis:louis2024@ap-wo.f6fxict.mongodb.net/?appName=AP-WO"
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+    throw new Error("MONGODB_URI is not set.");
+}
+
 const client = new MongoClient(uri);
 
 // Export db so it can be imported elsewhere
