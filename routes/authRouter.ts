@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, createAccount, createInitialUser } from './databaseController';
+import { login, createAccount, createInitialUser } from '../controllers/databaseController';
 import session from 'express-session';
 
 // This forces TypeScript to merge the types in this specific file

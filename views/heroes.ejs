@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marvel Rivals Track - Helden</title>
+    <%- include('partials/bootstrap') %>
+    <link rel="stylesheet" href="./css/heroes.css" />
+</head>
+<body>
+    
+    <%- include('partials/navbar') %>
+
+    <main>
+        <div class="container">
+            <div class="filter-section">
+                <form action="/heroes" method="GET">
+                    <select name="sort" class="sort-dropdown" onchange="this.form.submit()">
+                        <option value="" hidden selected>Sorteren op</option>
+                        <option value="HP">HP</option>
+                        <option value="name">Name</option>
+                    </select>
+                </form>
+            </div>
+
+            <section class="hero-grid">
+                <% if (heroes && heroes.length > 0) { %>
+                    <% heroes.forEach(hero => { 
+                        // Logic moved from your old heroes.js
+                        const img = hero.costumes?.[0]?.icon ? `${SKIN_BASE}${hero.costumes[0].icon}` : (hero.imageUrl ? `${IMG_BASE}${hero.imageUrl}` : "");
+                        const name = hero.real_name || hero.name || "Unknown";
+                        const hp = hero.transformations?.[0]?.health;
+                    %>
+                        <article class="hero-card" onclick="location.href='/heroes/<%= hero.id %>'">
+                            <% if (img) { %>
+                                <img src="<%= img %>" alt="<%= name %>" class="hero-image" onerror="this.src='/img/placeholder.png'">
+                            <% } else { %>
+                                <div class="hero-image-placeholder"></div>
+                            <% } %>
+                            
+                            <div class="hero-info">
+                                <h3><%= name %></h3>
+                                <% if (hp) { %><p>HP: <%= hp %></p><% } %>
+                                <% if (hero.role) { %>
+                                    <p class="hero-role"><%= hero.role %></p>
+                                <% } %>
+                            </div>
+                        </article>
+                    <% }) %>
+                <% } else { %>
+                    <p style="color: white; padding: 20px;">Geen helden gevonden.</p>
+                <% } %>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

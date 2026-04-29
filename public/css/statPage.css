@@ -309,3 +309,34 @@ h2 {
   color: var(--text);
   opacity: 0.55;
 }
+
+.results-area {
+    margin-top: 2rem;
+    min-height: 200px;
+    transition: all 0.3s ease;
+}
+
+.player-result.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.player-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-color, #ffcb05);
+}

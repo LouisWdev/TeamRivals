@@ -1,31 +1,35 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
-import authRouter from './authRouter';
-
+import authRouter from './routes/authRouter';
+import heroesRouter from './routes/heroes';
+import newsRouter from './routes/news';
+import statsRouter from './routes/stats';
+import { syncHeroes, smartSyncOnStartup, syncGameUpdates } from './controllers/databaseController';
 import session from 'express-session';
+import cron from 'node-cron'
 dotenv.config();
 
 // all links to API (refer to On the subject of API's to import properly and only load once!)
 // (will be reused countless times, hence loading the data once will speedup our load times!)
 // (async ofc)
 // (idk interface yet, handle it.)
-const API_KEY = "7983383bb4f26287b16a031b0877b8b9dc1280ae42b1cf3d2b49562fe747364d";
+const API_KEY = process.env.RIVALS_API_KEY;
 const BASE_URL = "https://marvelrivalsapi.com/api/v1";
 const IMG_BASE = "https://marvelrivalsapi.com";
 const SKIN_BASE = "https://marvelrivalsapi.com/rivals";
 
 const app: Express = express();
-
+const key: string = process.env.SALT || "";
+const sessionSecret: string = key;
 app.use(session({
-    secret: 'SakamottoIs4l3gEnd', // Change this to a random string
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 app.use((req, res, next) => {
-    // Casting to 'any' bypasses the type check for this one line
     res.locals.user = (req.session as any).user || null;
     next();
 });
@@ -38,6 +42,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // there are admin and user roles, implement a site page that pulls all the accounts for admins to be able to delete and edit someone else's user data,
 // including password incase of account loss
 app.use(authRouter);
+app.use(heroesRouter);
+app.use(newsRouter);
+app.use(statsRouter);
 // heroes router, hero router, news router, detail router and stat router, lastly a game explain website aswell and in the auth router
 // add the previously mentioned functionalities
 // setup partials here!
@@ -46,6 +53,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("port", process.env.PORT || 3001);
 
 app.get("/", (req, res) => {
+  smartSyncOnStartup();
   res.render("index", {
     title: "Team Rivals",
   });
@@ -54,4 +62,10 @@ app.get("/", (req, res) => {
 
 app.listen(app.get("port"), () => {
   console.log("Server started on http://localhost:" + app.get("port"));
+});
+
+
+cron.schedule('0 * * * *', () => {
+    syncHeroes();
+    syncGameUpdates(); // Refresh news every hour
 });

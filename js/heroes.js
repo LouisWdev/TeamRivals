@@ -1,4 +1,4 @@
-const API_KEY = "7983383bb4f26287b16a031b0877b8b9dc1280ae42b1cf3d2b49562fe747364d";
+const API_KEY = typeof process !== "undefined" ? process.env.RIVALS_API_KEY : "";
 const BASE_URL = "https://marvelrivalsapi.com/api/v1";
 const IMG_BASE = "https://marvelrivalsapi.com";      // for imageUrl (already has /rivals/)
 const SKIN_BASE = "https://marvelrivalsapi.com/rivals"; // for costume icons (/costumes/...)
