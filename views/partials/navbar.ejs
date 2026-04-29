@@ -9,19 +9,22 @@
         <a href="/news" class="<%= currentPage === 'news' ? 'nav-active' : '' %>">Nieuws</a>
 
         <% if (locals.user) { %>
-            <div class="dropdown d-inline">
-                <button class="btn-yellow dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                    <%= user.username %>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="/account/edit">Edit Account</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="/logout">Log Out</a></li>
-                </ul>
-            </div>
-        <% } else { %>
-            <a href="/login" class="btn-yellow login-link">Log In</a>
-        <% } %>
+    <div class="dropdown d-flex align-items-center"> 
+        <button class="btn-yellow login-link dropdown-toggle" 
+                type="button" 
+                id="userMenu" 
+                data-bs-toggle="dropdown" 
+                style="min-width: 100px;"> <%= user.username %>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/account/edit">Edit Account</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/auth/logout">Log Out</a></li>
+        </ul>
+    </div>
+<% } else { %>
+    <a href="/login" class="btn-yellow login-link">Log In</a>
+<% } %>
     </div>
 </nav>
 </header>

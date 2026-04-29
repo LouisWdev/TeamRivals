@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import authRouter from './authRouter';
 
+import session from 'express-session';
 dotenv.config();
 
 // all links to API (refer to On the subject of API's to import properly and only load once!)
@@ -15,6 +16,19 @@ const IMG_BASE = "https://marvelrivalsapi.com";
 const SKIN_BASE = "https://marvelrivalsapi.com/rivals";
 
 const app: Express = express();
+
+app.use(session({
+    secret: 'SakamottoIs4l3gEnd', // Change this to a random string
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+app.use((req, res, next) => {
+    // Casting to 'any' bypasses the type check for this one line
+    res.locals.user = (req.session as any).user || null;
+    next();
+});
 
 app.set("view engine", "ejs");
 app.use(express.json());
