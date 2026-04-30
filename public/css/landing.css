@@ -34,8 +34,8 @@
 }
 
 .card {
-  height: 450px;
-  border-radius: 12px;
+  min-height: 420px;
+  border-radius: 8px;
   border: 2px solid var(--primary);
   background-color: var(--secondary);
   display: flex;
@@ -81,4 +81,58 @@
 .footer p {
   font-size: 0.9rem;
   font-weight: bold;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding: 34px 18px 28px;
+  }
+
+  .hero h1 {
+    font-size: 2.35rem;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    margin: 8px 0 24px;
+  }
+
+  .container {
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .card {
+    min-height: 260px;
+    padding: 18px;
+  }
+
+  .card h2 {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+
+  .card-overlay {
+    padding: 12px;
+  }
+
+  .footer {
+    margin-top: 24px;
+    padding: 28px 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero .subtitle {
+    font-size: 1rem;
+  }
 }

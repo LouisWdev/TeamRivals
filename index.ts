@@ -5,7 +5,7 @@ import authRouter from './routes/authRouter';
 import heroesRouter from './routes/heroes';
 import newsRouter from './routes/news';
 import statsRouter from './routes/stats';
-import { syncHeroes, smartSyncOnStartup, syncGameUpdates } from './controllers/databaseController';
+import { sessionStore, syncHeroes, smartSyncOnStartup, syncGameUpdates } from './controllers/databaseController';
 import session from 'express-session';
 import cron from 'node-cron'
 dotenv.config();
@@ -23,6 +23,7 @@ const app: Express = express();
 const key: string = process.env.SALT || "";
 const sessionSecret: string = key;
 app.use(session({
+    store: sessionStore,
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
@@ -39,15 +40,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// there are admin and user roles, implement a site page that pulls all the accounts for admins to be able to delete and edit someone else's user data,
-// including password incase of account loss
 app.use(authRouter);
 app.use(heroesRouter);
 app.use(newsRouter);
 app.use(statsRouter);
-// heroes router, hero router, news router, detail router and stat router, lastly a game explain website aswell and in the auth router
-// add the previously mentioned functionalities
-// setup partials here!
 app.set("views", path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT || 3001);

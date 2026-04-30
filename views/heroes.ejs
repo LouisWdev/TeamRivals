@@ -16,9 +16,9 @@
             <div class="filter-section">
                 <form action="/heroes" method="GET">
                     <select name="sort" class="sort-dropdown" onchange="this.form.submit()">
-                        <option value="" hidden selected>Sorteren op</option>
-                        <option value="HP">HP</option>
-                        <option value="name">Name</option>
+                        <option value="" <%= !selectedSort ? 'selected' : '' %>>Sorteren op</option>
+                        <option value="HP" <%= selectedSort === 'HP' ? 'selected' : '' %>>HP</option>
+                        <option value="name" <%= selectedSort === 'name' ? 'selected' : '' %>>Name</option>
                     </select>
                 </form>
             </div>
@@ -30,8 +30,21 @@
                         const img = hero.costumes?.[0]?.icon ? `${SKIN_BASE}${hero.costumes[0].icon}` : (hero.imageUrl ? `${IMG_BASE}${hero.imageUrl}` : "");
                         const name = hero.real_name || hero.name || "Unknown";
                         const hp = hero.transformations?.[0]?.health;
+                        const isFavorite = favoriteHeroes && favoriteHeroes.has(String(hero.id));
                     %>
-                        <article class="hero-card" onclick="location.href='/heroes/<%= hero.id %>'">
+                        <article class="hero-card <%= isFavorite ? 'hero-card-favorite' : '' %>" onclick="location.href='/heroes/<%= hero.id %>'">
+                            <form class="favorite-form" action="/heroes/<%= hero.id %>/favorite" method="POST" onclick="event.stopPropagation();">
+                                <input type="hidden" name="favorite" value="<%= isFavorite ? 'false' : 'true' %>">
+                                <input type="hidden" name="sort" value="<%= selectedSort || '' %>">
+                                <button
+                                    type="submit"
+                                    class="favorite-button <%= isFavorite ? 'is-favorite' : '' %>"
+                                    title="<%= isFavorite ? 'Remove favorite' : 'Add favorite' %>"
+                                    aria-label="<%= isFavorite ? 'Remove favorite' : 'Add favorite' %>"
+                                >
+                                    ★
+                                </button>
+                            </form>
                             <% if (img) { %>
                                 <img src="<%= img %>" alt="<%= name %>" class="hero-image" onerror="this.src='/img/placeholder.png'">
                             <% } else { %>

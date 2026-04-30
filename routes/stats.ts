@@ -2,12 +2,14 @@ import express from 'express';
 import { db } from '../controllers/databaseController'; // Make sure the path is correct
 import axios from 'axios'
 
+import { secureMiddleware } from "../SecurityMiddleware";
+
 
 const router = express.Router();
 const BASE_URL = "https://marvelrivalsapi.com/api/v1";
 
 
-router.get('/stats', async (req, res) => {
+router.get('/stats',secureMiddleware, async (req, res) => {
     try {
         const cache = await db.collection('game_cache').findOne({ type: 'heroes' });
         const heroes = cache ? cache.data : [];

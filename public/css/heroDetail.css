@@ -8,7 +8,7 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   padding: 40px 20px;
-  padding-top: 100px;
+  padding-top: 64px;
 }
 
 .hero-detail-main {
@@ -39,9 +39,10 @@ body {
 
 .hero-large-image {
   flex: 1;
-  border-radius: 15px;
+  border-radius: 8px;
   overflow: hidden;
   min-height: 400px;
+  min-width: 280px;
 }
 
 .hero-large-image img {
@@ -50,7 +51,7 @@ body {
   object-fit: cover;
   object-position: top center;
   display: block;
-  border-radius: 15px;
+  border-radius: 8px;
 }
 
 /* Andere Helden Section */
@@ -68,7 +69,7 @@ body {
 .mini-card {
   background-color: var(--secondary);
   border: 2px solid var(--primary);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   text-align: center;
   cursor: pointer;
@@ -114,10 +115,64 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .container {
+    padding: 32px 16px;
+  }
+
   .hero-detail-main {
     flex-direction: column-reverse;
+    gap: 24px;
+    margin-bottom: 48px;
   }
+
+  .hero-text-content h1 {
+    font-size: 2rem;
+  }
+
+  .stats-list p {
+    font-size: 1rem;
+  }
+
+  .hero-description {
+    margin-top: 20px;
+  }
+
+  .hero-large-image {
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .hero-large-image img {
+    max-height: 460px;
+  }
+
+  .andere-helden h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-grid-mini {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px !important;
+  }
+
+  .mini-card {
+    width: auto !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-text-content h1 {
+    font-size: 1.75rem;
+  }
+
   .hero-grid-mini {
     grid-template-columns: 1fr;
+  }
+
+  .mini-img,
+  .mini-img-placeholder {
+    height: 180px;
   }
 }

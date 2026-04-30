@@ -18,6 +18,9 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="/account/edit">Edit Account</a></li>
+            <% if (user.role === 'ADMIN') { %>
+                <li><a class="dropdown-item" href="/admin/accounts">Admin Accounts</a></li>
+            <% } %>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item text-danger" href="/auth/logout">Log Out</a></li>
         </ul>
