@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   height: fit-content;
   padding-top: 60px;
+  overflow-x: hidden;
 }
 
 h1,
@@ -45,7 +46,8 @@ pre {
   font-size: 1.4rem;
   font-weight: bold;
   color: var(--primary);
-  padding-left: 20px;
+  min-width: max-content;
+  padding: 0 20px;
   letter-spacing: 1px;
   text-decoration: none;
   cursor: pointer;
@@ -62,6 +64,7 @@ pre {
 .nav-links {
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
 .nav-links a {
@@ -71,6 +74,7 @@ pre {
   height: 100%;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 .nav-links a:hover {
   color: #fff;
@@ -109,6 +113,7 @@ pre {
     font-weight: bold;
     background-color: #ffcc00; /* Your yellow */
     color: #000;
+    white-space: nowrap;
 }
 
 /* Fix dropdown positioning */
@@ -149,4 +154,77 @@ pre {
 .dropdown-item.text-danger:hover {
     background-color: #611b1b !important;
     color: #ffffff !important;
+}
+
+@media (max-width: 760px) {
+  body {
+    padding-top: 112px;
+  }
+
+  .navbar {
+    align-items: center;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 112px;
+    padding: 10px 12px;
+  }
+
+  .nav-logo {
+    flex: 1 1 100%;
+    justify-content: center;
+    padding: 0 0 8px;
+  }
+
+  .nav-links {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .nav-links a,
+  .btn-yellow.login-link {
+    border-radius: 6px;
+    font-size: 0.86rem;
+    height: 40px;
+    justify-content: center;
+    min-width: 0;
+    padding: 0 8px;
+    text-align: center;
+  }
+
+  .nav-links a {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-active {
+    border-bottom: 0;
+    outline: 2px solid var(--primary);
+  }
+
+  .dropdown {
+    min-width: 0;
+  }
+
+  .dropdown .login-link {
+    width: 100%;
+  }
+
+  .dropdown-menu {
+    width: min(240px, calc(100vw - 24px));
+  }
+}
+
+@media (max-width: 460px) {
+  body {
+    padding-top: 164px;
+  }
+
+  .navbar {
+    min-height: 164px;
+  }
+
+  .nav-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

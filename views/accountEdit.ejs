@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rivals Track - Edit Profile</title>
+    <%- include('partials/bootstrap') %>
+    <link rel="stylesheet" href="/css/account.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <main class="account-page">
+      <section class="account-panel">
+        <div class="account-heading">
+          <h1>Edit Profile</h1>
+          <p><%= account.email %></p>
+        </div>
+
+        <% if (locals.error) { %>
+          <div class="account-alert account-alert-error"><%= error %></div>
+        <% } %>
+
+        <% if (locals.success) { %>
+          <div class="account-alert account-alert-success"><%= success %></div>
+        <% } %>
+
+        <form class="account-form" action="/account/edit" method="POST">
+          <h2>Account Details</h2>
+
+          <div class="input-row">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="<%= account.username %>" required />
+          </div>
+
+          <div class="input-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="<%= account.email %>" required />
+          </div>
+
+          <button type="submit" class="account-button">Save Changes</button>
+        </form>
+
+        <form class="account-form" action="/account/password" method="POST">
+          <h2>Reset Password</h2>
+
+          <div class="input-row">
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+
+          <div class="input-row">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required />
+          </div>
+
+          <button type="submit" class="account-button">Reset Password</button>
+        </form>
+
+        <form class="account-form account-danger" action="/account/delete" method="POST" onsubmit="return confirm('Delete this account permanently?');">
+          <h2>Delete Account</h2>
+          <p>This removes your account and logs you out immediately.</p>
+          <button type="submit" class="account-button danger-button">Delete Account</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

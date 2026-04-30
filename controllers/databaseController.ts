@@ -2,6 +2,7 @@
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
+import MongoStore from "connect-mongo";
 import { account } from "../interfaces";
 import axios from 'axios'
 
@@ -10,15 +11,24 @@ if (!uri) {
     throw new Error("MONGODB_URI is not set.");
 }
 
+const DB_NAME = "Rivals-Track";
 const client = new MongoClient(uri);
+export const mongoClientPromise = client.connect();
 
 // Export db so it can be imported elsewhere
-export const db = client.db("Rivals-Track"); 
+export const db = client.db(DB_NAME);
+export const sessionStore = MongoStore.create({
+    clientPromise: mongoClientPromise,
+    dbName: DB_NAME,
+    collectionName: "sessions"
+});
 
 
 // Add a collection for your Marvel Rivals API data
 export const gameCacheCollection = db.collection("game_cache");
 export const userCollection = db.collection<account>("Accounts");
+
+export type AccountSummary = Omit<account, "password" | "salt">;
 
 function generateRandomSalt(): string {
     const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -68,6 +78,19 @@ export async function login(email: string, passwordAttempt: string): Promise<acc
     return user;
 }
 
+export async function getAccountById(id: string): Promise<account | null> {
+    if (!ObjectId.isValid(id)) return null;
+
+    return await userCollection.findOne({ _id: new ObjectId(id) as any });
+}
+
+export async function getAllAccounts(): Promise<AccountSummary[]> {
+    return await userCollection
+        .find({}, { projection: { password: 0, salt: 0 } })
+        .sort({ username: 1 })
+        .toArray() as AccountSummary[];
+}
+
 export async function updateAccount(id: string, updates: Partial<account>) {
     const updatePayload: any = { ...updates };
 
@@ -88,6 +111,17 @@ export async function updateAccount(id: string, updates: Partial<account>) {
 
 export async function deleteAccount(id: string) {
     return await userCollection.deleteOne({ _id: new ObjectId(id) as any });
+}
+
+export async function setFavoriteHero(accountId: string, heroId: string, isFavorite: boolean) {
+    if (!ObjectId.isValid(accountId)) return null;
+
+    return await userCollection.updateOne(
+        { _id: new ObjectId(accountId) as any },
+        isFavorite
+            ? { $addToSet: { favoriteHeroes: heroId } }
+            : { $pull: { favoriteHeroes: heroId } }
+    );
 }
 
 export async function createInitialUser() {

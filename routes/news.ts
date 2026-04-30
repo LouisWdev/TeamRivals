@@ -1,10 +1,12 @@
 import express from 'express';
 import { db } from '../controllers/databaseController'; // Make sure the path is correct
 
+
+import { secureMiddleware } from "../SecurityMiddleware";
 const router = express.Router();
 
 
-router.get('/news', async (req, res) => {
+router.get('/news', secureMiddleware, async (req, res) => {
     try {
         // 1. Fetch the cached data from MongoDB
         const patchCache = await db.collection('game_cache').findOne({ type: 'patch_notes' });

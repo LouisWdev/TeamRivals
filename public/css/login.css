@@ -2,13 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 24px 16px;
   height: calc(100vh - 60px);
 }
 
 .login-card {
   background-color: var(--secondary);
   padding: 40px;
-  border-radius: 40px;
+  border-radius: 8px;
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -60,4 +61,27 @@
 
 .login-button:hover {
   background-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .login-container {
+    align-items: flex-start;
+    height: auto;
+    min-height: calc(100vh - 60px);
+    padding-top: 32px;
+  }
+
+  .login-card {
+    padding: 24px;
+  }
+
+  .input-group {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .input-group label {
+    width: auto;
+  }
 }

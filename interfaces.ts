@@ -7,4 +7,5 @@ export interface account {
     password: string;
     salt: string;
     role: string;
+    favoriteHeroes?: string[];
 }

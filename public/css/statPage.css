@@ -5,11 +5,10 @@ body {
 }
 
 .container {
-  
   max-width: 800px;
   margin: 0 auto;
   padding: 40px 20px;
-  padding-top: 100px;
+  padding-top: 64px;
 }
 
 h1 {
@@ -72,7 +71,7 @@ h2 {
 .featured-hero {
   background-color: var(--secondary);
   border: 2px solid var(--primary);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 16px;
   text-align: center;
   cursor: pointer;
@@ -126,6 +125,7 @@ h2 {
 
 .input-row input {
   flex-grow: 1;
+  min-width: 0;
   background: rgba(255,255,255,0.05);
   border: none;
   padding: 14px 18px;
@@ -163,7 +163,7 @@ h2 {
   background-color: rgba(255,255,255,0.04);
   border: 1px solid var(--secondary);
   border-top: 3px solid var(--primary);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 28px;
   display: flex;
   flex-direction: column;
@@ -190,6 +190,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .player-identity h3 {
@@ -197,6 +198,7 @@ h2 {
   font-weight: bold;
   color: var(--text);
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .player-level {
@@ -339,4 +341,100 @@ h2 {
     height: 60px;
     border-radius: 50%;
     border: 2px solid var(--accent-color, #ffcb05);
+}
+
+@media (max-width: 760px) {
+  .container {
+    padding: 32px 16px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 22px;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin-top: 30px;
+  }
+
+  .centered-placeholder {
+    font-size: 1.05rem;
+    padding: 22px 0;
+  }
+
+  .stat-number {
+    font-size: 2.4rem;
+  }
+
+  .featured-heroes-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .featured-hero {
+    min-width: 0;
+    padding: 12px;
+  }
+
+  .input-row {
+    max-width: none;
+  }
+
+  .player-result {
+    padding: 18px;
+  }
+
+  .player-header {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .rank-display img {
+    height: 58px;
+  }
+
+  .player-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .player-mode-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .input-row {
+    align-items: stretch;
+    flex-direction: column;
+    border-radius: 8px;
+  }
+
+  #search-btn {
+    width: 100%;
+  }
+
+  .featured-heroes-row {
+    grid-template-columns: 1fr;
+  }
+
+  .player-header {
+    flex-wrap: wrap;
+  }
+
+  .rank-display {
+    align-items: flex-start;
+    flex: 1 1 100%;
+    margin-left: 0;
+  }
+
+  .top-heroes-list {
+    flex-direction: column;
+  }
 }

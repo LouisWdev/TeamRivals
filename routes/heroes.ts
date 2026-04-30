@@ -1,13 +1,18 @@
 import express from 'express';
-import { db } from '../controllers/databaseController'; // Make sure the path is correct
+import { db, getAccountById, setFavoriteHero } from '../controllers/databaseController'; // Make sure the path is correct
 
+
+import { secureMiddleware } from "../SecurityMiddleware";
 const router = express.Router();
 
-router.get('/heroes', async (req, res) => {
+router.get('/heroes',secureMiddleware, async (req, res) => {
     try {
         // Now 'db' is recognized!
         const cache = await db.collection('game_cache').findOne({ type: 'heroes' });
         let heroes = cache ? cache.data : [];
+        const sessionUser = req.session.user;
+        const account = sessionUser ? await getAccountById(sessionUser.id) : null;
+        const favoriteHeroes = new Set((account?.favoriteHeroes || []).map(String));
 
         // Sorting logic based on the dropdown
         const sortType = req.query.sort;
@@ -19,8 +24,15 @@ router.get('/heroes', async (req, res) => {
             heroes.sort((a: any, b: any) => a.name.localeCompare(b.name));
         }
 
+        heroes = [
+            ...heroes.filter((hero: any) => favoriteHeroes.has(String(hero.id))),
+            ...heroes.filter((hero: any) => !favoriteHeroes.has(String(hero.id)))
+        ];
+
         res.render('heroes', { 
             heroes, 
+            favoriteHeroes,
+            selectedSort: sortType,
             currentPage: 'heroes',
             IMG_BASE: "https://marvelrivalsapi.com",
             SKIN_BASE: "https://marvelrivalsapi.com/rivals" 
@@ -31,7 +43,25 @@ router.get('/heroes', async (req, res) => {
     }
 });
 
-router.get('/heroes/:id', async (req, res) => {
+router.post('/heroes/:id/favorite', secureMiddleware, async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) return res.redirect('/login');
+
+        const heroId = String(req.params.id);
+        const isFavorite = req.body.favorite === 'true';
+        const sort = typeof req.body.sort === 'string' ? req.body.sort : '';
+
+        await setFavoriteHero(sessionUser.id, heroId, isFavorite);
+
+        res.redirect(sort ? `/heroes?sort=${encodeURIComponent(sort)}` : '/heroes');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error updating favorite hero");
+    }
+});
+
+router.get('/heroes/:id',secureMiddleware, async (req, res) => {
     try {
         const heroId = req.params.id;
         

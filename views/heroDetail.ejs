@@ -51,7 +51,7 @@
                 <% otherHeroes.forEach(other => { 
                     const otherImg = other.costumes?.[0]?.icon ? `${SKIN_BASE}${other.costumes[0].icon}` : (other.imageUrl ? `${IMG_BASE}${other.imageUrl}` : "");
                 %>
-                    <article class="mini-card p-2 border rounded" style="cursor:pointer; width: 200px;" 
+                    <article class="mini-card p-2 border rounded" style="cursor:pointer;" 
                              onclick="location.href='/heroes/<%= other.id %>'">
                         <img src="<%= otherImg %>" alt="<%= other.name %>" class="img-fluid mb-2" onerror="this.style.display='none'">
                         <div class="mini-info">
