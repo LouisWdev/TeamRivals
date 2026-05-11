@@ -1,5 +1,5 @@
 import "dotenv/config";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { MongoClient, ObjectId } from "mongodb";
 import { account } from "./interfaces";
 

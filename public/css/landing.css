@@ -21,6 +21,44 @@
   font-size: 1.1rem;
 }
 
+.intro-banner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  border-bottom: 2px solid #000;
+}
+
+.intro-tag {
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px 0;
+}
+
+.intro-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin: 0 0 16px 0;
+}
+
+.intro-desc {
+  font-size: 1rem;
+  color: var(--text);
+  max-width: 680px;
+  line-height: 1.7;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.card-icon {
+  font-size: 2.8rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
 .container {
   max-width: 1000px;
   margin: 40px auto;
@@ -95,6 +133,14 @@
   .hero .subtitle {
     font-size: 1.1rem;
     margin: 8px 0 24px;
+  }
+
+  .intro-banner {
+    padding: 28px 16px;
+  }
+
+  .intro-title {
+    font-size: 1.5rem;
   }
 
   .container {

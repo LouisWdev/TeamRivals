@@ -1,6 +1,6 @@
 
 import "dotenv/config";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { MongoClient, ObjectId } from "mongodb";
 import MongoStore from "connect-mongo";
 import { account } from "../interfaces";
@@ -12,7 +12,7 @@ if (!uri) {
 }
 
 const DB_NAME = "Rivals-Track";
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, { family: 4 });
 export const mongoClientPromise = client.connect();
 
 // Export db so it can be imported elsewhere
