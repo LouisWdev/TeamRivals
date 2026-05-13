@@ -14,6 +14,13 @@
         <% 
             const mainImg = hero.costumes?.[0]?.icon ? `${SKIN_BASE}${hero.costumes[0].icon}` : (hero.imageUrl ? `${IMG_BASE}${hero.imageUrl}` : null);
             const hp = hero.transformations?.[0]?.health || "—";
+            const abilities = Array.isArray(hero.abilities) ? hero.abilities : [];
+            const heroDisplayName = hero.real_name || hero.name;
+            const cleanAbilityDescription = (description = "") => String(description)
+                .replace(/\{104700\}/g, heroDisplayName)
+                .replace(/\{\d+\}/g, "")
+                .replace(/<\/?[^>]+>/g, "")
+                .trim();
         %>
 
         <section class="hero-detail-main d-flex flex-wrap gap-4">
@@ -41,6 +48,43 @@
                     <img src="<%= mainImg %>" alt="<%= hero.name %>" class="img-fluid rounded shadow">
                 <% } %>
             </div>
+        </section>
+
+        <hr class="my-5">
+
+        <section class="hero-abilities">
+            <h2 class="mb-4">Abilities</h2>
+
+            <% if (abilities.length > 0) { %>
+                <div class="abilities-grid">
+                    <% abilities.forEach(ability => { 
+                        const abilityImg = ability.icon ? `${IMG_BASE}${ability.icon}` : "";
+                    %>
+                        <article class="ability-card">
+                            <% if (abilityImg) { %>
+                                <img src="<%= abilityImg %>" alt="<%= ability.name %>" class="ability-icon" onerror="this.style.display='none'">
+                            <% } %>
+
+                            <div class="ability-info">
+                                <div class="ability-heading">
+                                    <h3><%= ability.name %></h3>
+                                    <% if (ability.type) { %>
+                                        <span><%= ability.type %></span>
+                                    <% } %>
+                                </div>
+
+                                <p><%= cleanAbilityDescription(ability.description) || "No description available." %></p>
+
+                                <% if (ability.isCollab) { %>
+                                    <p class="ability-team-up">Team-Up Ability</p>
+                                <% } %>
+                            </div>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p class="text-muted">No abilities available.</p>
+            <% } %>
         </section>
 
         <hr class="my-5">

@@ -54,6 +54,82 @@ body {
   border-radius: 8px;
 }
 
+.hero-abilities {
+  margin-bottom: 64px;
+}
+
+.hero-abilities h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.abilities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ability-card {
+  display: flex;
+  gap: 16px;
+  min-height: 150px;
+  padding: 18px;
+  background-color: var(--secondary);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+}
+
+.ability-icon {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: var(--background);
+}
+
+.ability-info {
+  min-width: 0;
+}
+
+.ability-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.ability-heading h3 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.ability-heading span {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background-color: var(--background);
+  color: var(--text);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.ability-info p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.ability-info .ability-team-up {
+  margin-top: 10px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
 /* Andere Helden Section */
 .andere-helden h2 {
   font-size: 2rem;
@@ -151,6 +227,18 @@ body {
     font-size: 1.5rem;
   }
 
+  .hero-abilities h2 {
+    font-size: 1.5rem;
+  }
+
+  .abilities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ability-card {
+    min-height: 0;
+  }
+
   .hero-grid-mini {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -169,6 +257,15 @@ body {
 
   .hero-grid-mini {
     grid-template-columns: 1fr;
+  }
+
+  .ability-card {
+    flex-direction: column;
+  }
+
+  .ability-heading {
+    flex-direction: column;
+    gap: 8px;
   }
 
   .mini-img,

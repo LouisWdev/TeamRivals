@@ -26,9 +26,13 @@
             <section class="hero-grid">
                 <% if (heroes && heroes.length > 0) { %>
                     <% heroes.forEach(hero => { 
-                        // Logic moved from your old heroes.js
-                        const img = hero.costumes?.[0]?.icon ? `${SKIN_BASE}${hero.costumes[0].icon}` : (hero.imageUrl ? `${IMG_BASE}${hero.imageUrl}` : "");
-                        const name = hero.real_name || hero.name || "Unknown";
+                        // Old logic:
+                        // const img = hero.costumes?.[0]?.icon ? `${SKIN_BASE}${hero.costumes[0].icon}` : (hero.imageUrl ? `${IMG_BASE}${hero.imageUrl}` : "");
+                        
+                        // New logic: Point to our proxy route
+                        const img = `/hero-image/${hero.id}`;
+                        
+                        const name = hero.name || hero.real_name || "Unknown";
                         const hp = hero.transformations?.[0]?.health;
                         const isFavorite = favoriteHeroes && favoriteHeroes.has(String(hero.id));
                     %>

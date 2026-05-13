@@ -1,20 +1,24 @@
 import express from 'express';
 import { db, getAccountById, setFavoriteHero } from '../controllers/databaseController'; // Make sure the path is correct
 
-
 import { secureMiddleware } from "../SecurityMiddleware";
+import { syncHeroes } from '../controllers/heroController';
 const router = express.Router();
 
-router.get('/heroes',secureMiddleware, async (req, res) => {
+router.get('/heroes', secureMiddleware, async (req, res) => {
     try {
-        // Now 'db' is recognized!
         const cache = await db.collection('game_cache').findOne({ type: 'heroes' });
         let heroes = cache ? cache.data : [];
+
+        // --- NEW: FETCH CACHED IMAGES ---
+        const cachedImages = await db.collection('hero_images').find({}).toArray();
+        const imageMap = new Map(cachedImages.map(img => [img.heroId, img]));
+
         const sessionUser = req.session.user;
         const account = sessionUser ? await getAccountById(sessionUser.id) : null;
         const favoriteHeroes = new Set((account?.favoriteHeroes || []).map(String));
 
-        // Sorting logic based on the dropdown
+        // Sorting logic...
         const sortType = req.query.sort;
         if (sortType === 'HP') {
             heroes.sort((a: any, b: any) => 
@@ -23,6 +27,19 @@ router.get('/heroes',secureMiddleware, async (req, res) => {
         } else if (sortType === 'name') {
             heroes.sort((a: any, b: any) => a.name.localeCompare(b.name));
         }
+
+        // Attach the local image to each hero object
+        heroes = heroes.map((hero: any) => {
+            const cached = imageMap.get(hero.id);
+            return {
+                ...hero,
+                // If we have it in DB, create the Data URI. 
+                // If not, fallback to your original URL logic.
+                localImage: cached 
+                    ? `data:${cached.contentType};base64,${cached.imageBuffer.toString('base64')}`
+                    : null
+            };
+        });
 
         heroes = [
             ...heroes.filter((hero: any) => favoriteHeroes.has(String(hero.id))),
@@ -34,6 +51,7 @@ router.get('/heroes',secureMiddleware, async (req, res) => {
             favoriteHeroes,
             selectedSort: sortType,
             currentPage: 'heroes',
+            // Keep these as fallbacks in your EJS
             IMG_BASE: "https://marvelrivalsapi.com",
             SKIN_BASE: "https://marvelrivalsapi.com/rivals" 
         });
@@ -58,6 +76,36 @@ router.post('/heroes/:id/favorite', secureMiddleware, async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Error updating favorite hero");
+    }
+});
+
+router.get('/hero-image/:id', async (req, res) => {
+    try {
+        const heroImg = await db.collection('hero_images').findOne({ heroId: req.params.id });
+        
+        if (!heroImg || !heroImg.imageBuffer) {
+            // If not found in DB, we could redirect to the placeholder or original API
+            return res.redirect('/img/placeholder.png');
+        }
+
+        // Set the header so the browser knows it's an image
+        res.set("Content-Type", heroImg.contentType || "image/png");
+        
+        // Send the raw binary buffer
+        res.send(heroImg.imageBuffer.buffer);
+    } catch (err) {
+        console.error("Error serving image:", err);
+        res.status(500).send("Error");
+    }
+});
+
+router.get('/sync-force', secureMiddleware, async (req, res) => {
+    try {
+        console.log("🚀 Force sync requested...");
+        await syncHeroes(db);
+        res.send("<h1>Sync Complete!</h1><p>Check your console for details.</p><a href='/heroes'>Back to Heroes</a>");
+    } catch (err:any) {
+        res.status(500).send("Sync failed: " + err.message);
     }
 });
 

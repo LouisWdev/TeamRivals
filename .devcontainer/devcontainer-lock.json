@@ -1,0 +1,9 @@
+{
+  "features": {
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0": {
+      "version": "0.0.15",
+      "resolved": "ghcr.io/cirolosapio/devcontainers-features/alpine-node@sha256:d64b5a69acc7135cff791661b419b5b5249d5c95bc214064ec57a29bd570b5d4",
+      "integrity": "sha256:d64b5a69acc7135cff791661b419b5b5249d5c95bc214064ec57a29bd570b5d4"
+    }
+  }
+}
